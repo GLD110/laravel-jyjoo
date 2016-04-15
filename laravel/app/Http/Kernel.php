@@ -29,11 +29,23 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
+            'with_language'
         ],
-
         'api' => [
-            'throttle:60,1',
+            'web',
+            'throttle:60,1'
         ],
+        'admin' => [
+            'web',
+            'auth',
+            'throttle',
+            \App\Http\Middleware\Custom\MakeMenu::class
+        ],
+        // Custom Ones
+        'with_language' => [
+            \App\Http\Middleware\Custom\SetConfiguration::class,
+            \App\Http\Middleware\Custom\Locale::class
+        ]
     ];
 
     /**
@@ -46,8 +58,7 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'can' => \Illuminate\Foundation\Http\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class
     ];
 }
