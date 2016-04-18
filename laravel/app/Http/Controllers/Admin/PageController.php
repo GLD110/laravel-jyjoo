@@ -33,17 +33,6 @@ class PageController extends AdminController
     }
 
     /**
-     * Display the specified page.
-     *
-     * @param Page $page
-     * @return Response
-     */
-    public function show(Page $page)
-    {
-        return $this->viewPath("show", $page);
-    }
-
-    /**
      * Show the form for editing the specified language.
      *
      * @param Page $page
@@ -78,6 +67,17 @@ class PageController extends AdminController
     }
 
     /**
+     * Store a newly created category in storage
+     *
+     * @param CategoryRequest $request
+     * @return Response
+     */
+    public function store(CategoryRequest $request)
+    {
+        return $this->createFlashRedirect(Category::class, $request);
+    }
+
+    /**
      * Save the page ordering
      *
      * @param Request $request
@@ -95,5 +95,28 @@ class PageController extends AdminController
                 $page->save();
             }
         }
+    }
+
+    /**
+     * Update the specified language in storage.
+     *
+     * @param Page $page
+     * @param PageRequest $request
+     * @return Response
+     */
+    public function update(Page $page, PageRequest $request)
+    {
+        return $this->saveFlashRedirect($page, $request);
+    }
+
+    /**
+     * Display the specified page.
+     *
+     * @param Page $page
+     * @return Response
+     */
+    public function show(Page $page)
+    {
+        return $this->viewPath("show", $page);
     }
 }

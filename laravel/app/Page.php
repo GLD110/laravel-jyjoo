@@ -3,8 +3,8 @@
 namespace App;
 
 use Baum\Node;
-use Cviebrock\EloquentSluggable\SluggableInterface;
 use Cviebrock\EloquentSluggable\SluggableTrait;
+use Cviebrock\EloquentSluggable\SluggableInterface;
 
 /**
  * App\Page
@@ -59,6 +59,16 @@ class Page extends Node implements SluggableInterface
     );
 
     /**
+     * Set the slug according to Turkish language (Ö => o and Ü => u) instead of German (Ö => oe and Ü => ue)
+     *
+     * @param $slug
+     */
+    public function setSlugAttribute($slug)
+    {
+        $this->attributes['slug'] = str_replace(["oe", "ue"], ["o", "u"], $slug);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function language()
@@ -75,15 +85,5 @@ class Page extends Node implements SluggableInterface
     public function getContentAttribute($content)
     {
         return clean($content, 'youtube');
-    }
-
-    /**
-     * Set the slug according to Turkish language (Ö => o and Ü => u) instead of German (Ö => oe and Ü => ue)
-     *
-     * @param $slug
-     */
-    public function setSlugAttribute($slug)
-    {
-        $this->attributes['slug'] = str_replace(["oe", "ue"], ["o", "u"], $slug);
     }
 }

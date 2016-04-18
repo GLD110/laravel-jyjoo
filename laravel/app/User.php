@@ -60,14 +60,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     protected $dates = ['logged_in_at', 'logged_out_at'];
 
-    /**
-     * Set password encrypted
+	 /**
+     * Get the ip address attribute.
      *
-     * @param $password
+     * @param $ip
+     * @return string
      */
-    public function setPasswordAttribute($password)
+    public function getIpAddressAttribute($ip)
     {
-        $this->attributes['password'] =  Hash::make($password);
+        return $ip ? inet_ntop($ip) : "";
     }
 
     /**
@@ -81,15 +82,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         $this->attributes['ip_address'] = inet_pton($ip);
     }
 
-
-    /**
-     * Get the ip address attribute.
+	/**
+     * Set password encrypted
      *
-     * @param $ip
-     * @return string
+     * @param $password
      */
-    public function getIpAddressAttribute($ip)
+    public function setPasswordAttribute($password)
     {
-        return $ip ? inet_ntop($ip) : "";
+        $this->attributes['password'] =  Hash::make($password);
     }
 }

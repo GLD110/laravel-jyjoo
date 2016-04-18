@@ -34,5 +34,13 @@ class Setting extends Model
      *
      * @var array
      */
+    //protected $fillable = ['analytics_id', 'disqus_shortname', 'email', 'facebook', 'logo', 'twitter'];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = ['analytics_id', 'disqus_shortname', 'email', 'facebook', 'logo', 'twitter'];
+
 }

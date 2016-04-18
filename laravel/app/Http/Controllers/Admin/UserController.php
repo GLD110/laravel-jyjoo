@@ -87,4 +87,15 @@ class UserController extends AdminController
             return $this->redirectRoutePath("index", "admin.delete.self");
         }
     }
+
+    /**
+     * Store a newly created category in storage
+     *
+     * @param CategoryRequest $request
+     * @return Response
+     */
+    public function store(CategoryRequest $request)
+    {
+        return $this->createFlashRedirect(Category::class, $request);
+    }
 }

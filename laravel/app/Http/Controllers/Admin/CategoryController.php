@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Base\Controllers\AdminController;
-use App\Category;
+//use App\Category;
 use App\Http\Controllers\Api\DataTables\CategoryDataTable;
 use App\Http\Requests\Admin\CategoryRequest;
+use App\Category;
 
 class CategoryController extends AdminController
 {
@@ -74,5 +75,16 @@ class CategoryController extends AdminController
     public function destroy(Category $category)
     {
         return $this->destroyFlashRedirect($category);
+    }
+
+    /**
+     * Store a newly created category in storage
+     *
+     * @param CategoryRequest $request
+     * @return Response
+     */
+    public function store(CategoryRequest $request)
+    {
+        return $this->createFlashRedirect(Category::class, $request);
     }
 }
