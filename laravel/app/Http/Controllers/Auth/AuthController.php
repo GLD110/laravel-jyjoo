@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Litepie\User\Traits\RegisterAndLogin;
 
 class AuthController extends Controller
 {
@@ -17,20 +16,25 @@ class AuthController extends Controller
     | authentication of existing users. By default, this controller uses
     | a simple trait to add these behaviors. Why don't you explore it?
     |
-    */
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+     */
+
+    use RegisterAndLogin;
 
     /**
+     * Where to redirect users after login / registration.
+     *
      * @var string
      */
-    protected $redirectTo = '/admin';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new authentication controller instance.
      *
+     * @return void
      */
     public function __construct()
     {
-         $this->middleware($this->guestMiddleware(), ['except' => ['logout', 'getLogout']]);
+        $this->middleware('guest', ['except' => ['logout', 'verify', 'sendVerification']]);
+        $this->setupTheme(config('theme.themes.public.theme'), config('theme.themes.public.layout'));
     }
 }

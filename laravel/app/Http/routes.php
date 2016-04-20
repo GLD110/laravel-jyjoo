@@ -1,57 +1,35 @@
 <?php
 
+/*
+|--------------------------------------------------------------------------
+| Routes File
+|--------------------------------------------------------------------------
+|
+| Here is where you will register all of the routes in an application.
+| It's a breeze. Simply tell Laravel the URIs it should respond to
+| and give it the controller to call when that URI is requested.
+|
+*/
+
+/*
+|--------------------------------------------------------------------------
+| Application Routes
+|--------------------------------------------------------------------------
+|
+| This route group applies the "web" middleware group to every route
+| it contains. The "web" middleware group is defined in your HTTP
+| kernel and includes session state, CSRF protection, and more.
+|
+*/
+
+// Dashboard for administartor
+
+// User routes
 Route::group(['middleware' => 'web'], function () {
-    // Application routes
-    Route::group(['namespace' => 'Application'], function () {
-        Route::get('/', ['as' => 'root', 'uses' => 'HomeController@index']);
-        Route::get('article/{article_slug}', ['as' => 'article', 'uses' => 'ArticleController@index']);
-        Route::get('page/{page_slug}', ['as' => 'page', 'uses' => 'PageController@index']);
-        Route::get('category/{category_slug}', ['as' => 'category', 'uses' => 'CategoryController@index']);
-        Route::post('language/change', ['as' => 'app.language.change' , 'uses' => 'LanguageController@postChange']);
-    });
-    // Auth routes
-    Route::group(['namespace' => 'Auth'], function () {
-        Route::group(['prefix' => 'auth'], function () {
-            Route::get('/', ['as' => 'auth.root', 'uses' => 'AuthController@getLogin']);
-            Route::get('login', ['as' => 'auth.login', 'uses' => 'AuthController@getLogin']);
-            Route::post('login', ['as' => 'auth.login', 'uses' => 'AuthController@postLogin']);
-            Route::get('logout', ['as' => 'auth.logout', 'uses' => 'AuthController@getLogout']);
-        });
-        Route::group(['prefix' => 'password'], function () {
-            Route::get('email', ['as' => 'password.email', 'uses' => 'PasswordController@getEmail']);
-            Route::post('email', ['as' => 'password.email', 'uses' => 'PasswordController@postEmail']);
-            Route::get('reset/{token?}', ['as' => 'password.reset', 'uses' => 'PasswordController@showResetForm']);
-            Route::post('reset', ['as' => 'password.reset', 'uses' => 'PasswordController@postReset']);
-        });
-    });
-});
 
-// API routes
-Route::group(['prefix' => 'api', 'namespace' => 'Api', 'middleware' => 'api'], function () {
-    //
-});
+    // Home page for the website.
+    Route::get('/', 'PublicController@home');
+    Route::get('/home', 'UserController@home');
 
-// Admin routes
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'admin'], function () {
-    // GET
-    Route::get('/', ['as' => 'admin.root', 'uses' => 'DashboardController@getIndex']);
-    Route::get('setting', ['as' => 'admin.setting.index', 'uses' => 'SettingController@getSettings']);
-    // POST
-    Route::post('language/change', ['as' => 'admin.language.change' , 'uses' => 'LanguageController@postChange']);
-    Route::post('page/order', ['as' => 'admin.page.order' , 'uses' => 'PageController@postOrder']);
-    // PATCH
-    Route::patch('setting/{setting}', ['as' => 'admin.setting.update', 'uses' => 'SettingController@patchSettings']);
-    // Resources
-    /*Route::resource('article', 'ArticleController');
-    Route::resource('category', 'CategoryController');
-    Route::resource('language', 'LanguageController');
-    Route::resource('page', 'PageController');
-    Route::resource('user', 'UserController');*/
-
-    // Resources
-    Route::resource('article', 'ArticleController');
-    Route::resource('category', 'CategoryController');
-    Route::resource('language', 'LanguageController');
-    Route::resource('page', 'PageController');
-    Route::resource('user', 'UserController');
+    Route::auth();
 });

@@ -3,12 +3,12 @@
 namespace App\Exceptions;
 
 use Exception;
-use Illuminate\Session\TokenMismatchException;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Foundation\Validation\ValidationException;
+use Litepie\Support\Facades\Theme;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -29,27 +29,47 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $e
+     * @param \Exception $e
+     *
      * @return void
      */
     public function report(Exception $e)
     {
-        parent::report($e);
+
+        return parent::report($e);
     }
 
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $e
+     * @param \Illuminate\Http\Request $request
+     * @param \Exception               $e
+     *
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $e)
     {
-        if ($e instanceof TokenMismatchException) {
-            return back()->with('csrf_error', trans('admin.csrf_error'));
-        }
+
         return parent::render($request, $e);
     }
-}
 
+    /**
+     * Render the given HttpException.
+     *
+     * @param  \Symfony\Component\HttpKernel\Exception\HttpException  $e
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function renderHttpException(HttpException $e)
+    {
+        $status = $e->getStatusCode();
+
+        if (view()->exists("public::errors.{$status}")) {
+            $theme = Theme::uses('public')->layout('default');
+            return $theme->of("public::errors.{$status}", ['exception' => $e])->render();
+        } else {
+            return $this->convertExceptionToResponse($e);
+        }
+
+    }
+
+}

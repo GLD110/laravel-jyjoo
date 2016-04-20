@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\ResetsPasswords;
+use Litepie\User\Traits\PasswordManager;
 
 class PasswordController extends Controller
 {
@@ -18,12 +18,7 @@ class PasswordController extends Controller
     |
     */
 
-    use ResetsPasswords;
-
-    /**
-     * @var string
-     */
-    protected $redirectTo = '/admin';
+    use PasswordManager;
 
     /**
      * Create a new password controller instance.
@@ -33,5 +28,7 @@ class PasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+        $this->setupTheme(config('theme.themes.public.theme'), config('theme.themes.public.layout'));
     }
+
 }

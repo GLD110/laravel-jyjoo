@@ -29,23 +29,11 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
-            'with_language'
         ],
+
         'api' => [
-            'web',
-            'throttle:60,1'
+            'throttle:60,1',
         ],
-        'admin' => [
-            'web',
-            'auth',
-            'throttle',
-            \App\Http\Middleware\Custom\MakeMenu::class
-        ],
-        // Custom Ones
-        'with_language' => [
-            \App\Http\Middleware\Custom\SetConfiguration::class,
-            \App\Http\Middleware\Custom\Locale::class
-        ]
     ];
 
     /**
@@ -56,20 +44,12 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => \App\Http\Middleware\Authenticate::class,
-        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class
-    ];
-
-    /**
-     * The application's global HTTP middleware stack.
-     *
-     * These middleware are run during every request to your application.
-     *
-     * @var array
-     */
-    protected $middleware = [
-        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        'auth.role'       => \Litepie\User\Http\Middleware\VerifyRole::class,
+        'auth.permission' => \Litepie\User\Http\Middleware\VerifyPermission::class,
+        'auth.active'     => \Litepie\User\Http\Middleware\VerifyLogin::class,
+        'auth'            => \App\Http\Middleware\Authenticate::class,
+        'auth.basic'      => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'guest'           => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'throttle'        => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];
 }

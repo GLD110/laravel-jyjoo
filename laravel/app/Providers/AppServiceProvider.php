@@ -13,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->loadViewsFrom(public_path(config('theme.themeDir').'/'.config('theme.themes.admin.theme').'/views'), 'admin');
+        $this->loadViewsFrom(public_path(config('theme.themeDir').'/'.config('theme.themes.public.theme').'/views'), 'public');
     }
 
     /**
@@ -23,10 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if ($this->app->environment() == 'local') {
-            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
-            $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
-            $this->app->register(\Laracasts\Generators\GeneratorsServiceProvider::class);
-        }
+        //
     }
 }
