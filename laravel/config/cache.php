@@ -37,8 +37,8 @@ return [
         ],
 
         'database' => [
-            'driver' => 'database',
-            'table'  => 'cache',
+            'driver'     => 'database',
+            'table'      => 'cache',
             'connection' => null,
         ],
 
@@ -51,15 +51,13 @@ return [
             'driver'  => 'memcached',
             'servers' => [
                 [
-                    'host' => env('MEMCACHED_HOST', '127.0.0.1'),
-                    'port' => env('MEMCACHED_PORT', 11211),
-                    'weight' => 100,
+                    'host' => '127.0.0.1', 'port' => 11211, 'weight' => 100,
                 ],
             ],
         ],
 
         'redis' => [
-            'driver' => 'redis',
+            'driver'     => 'redis',
             'connection' => 'default',
         ],
 

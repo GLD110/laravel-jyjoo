@@ -4,29 +4,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | English Auth Language Lines
+    | Authentication Language Lines
     |--------------------------------------------------------------------------
+    |
+    | The following language lines are used during authentication for various
+    | messages that we need to display to the user. You are free to modify
+    | these language lines according to your application's requirements.
+    |
     */
 
-    "login" => [
-        "email"                 => "E-mail address",
-        "forgot"                => "I forgot my password?",
-        "password"              => "Password",
-        "remember"              => "Remember Me",
-        "submit"                => "Login",
-        "title"                 => "Login"
-    ],
-    "logout"                    => "Logout",
-    "password" => [
-        "email_content"         => "Click to this link to reset your password:",
-        "submit"                => "Send Password Reset Link",
-        "title"                 => "Forgot Password"
-    ],
-    "reset" => [
-        "password"              => "New password",
-        "password_confirmation" => "New password confirmation",
-        "submit"                => "Submit",
-        "title"                 => "Reset my Password"
-    ]
+    'failed'   => 'These credentials do not match our records.',
+    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
 ];
